@@ -119,7 +119,7 @@ class ImportGameActivity : Activity() {
             }
         } catch (e: Exception) {}
         
-        var finalName = result ?: "imported_game_${System.currentTimeMillis()}"
+        var finalName = FileNameSanitizer.sanitize(result)
         
         if (isZip && !finalName.endsWith(".zip", ignoreCase = true)) {
             finalName += ".zip"

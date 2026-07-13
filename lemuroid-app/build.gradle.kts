@@ -208,6 +208,8 @@ dependencies {
 
     ksp(deps.libs.dagger.android.processor)
     ksp(deps.libs.dagger.compiler)
+
+    testImplementation("junit:junit:4.13.2")
 }
 
 fun usePlayDynamicFeatures(): Boolean {
