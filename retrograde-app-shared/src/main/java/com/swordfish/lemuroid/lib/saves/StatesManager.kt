@@ -94,9 +94,16 @@ class StatesManager(private val directoriesManager: DirectoriesManager) {
         coreID: CoreID,
     ): List<SaveInfo> =
         withContext(Dispatchers.IO) {
+            val statesDirectories = File(directoriesManager.getStatesDirectory(), coreID.coreName)
+            val fileSet = statesDirectories.list()?.toSet() ?: emptySet()
+
             (0 until MAX_STATES)
-                .map { getStateFile(getSlotSaveFileName(game, it), coreID.coreName) }
-                .map { SaveInfo(it.exists(), it.lastModified()) }
+                .map {
+                    val fileName = getSlotSaveFileName(game, it)
+                    val exists = fileSet.contains(fileName)
+                    val lastModified = if (exists) File(statesDirectories, fileName).lastModified() else 0L
+                    SaveInfo(exists, lastModified)
+                }
                 .toList()
         }
 
