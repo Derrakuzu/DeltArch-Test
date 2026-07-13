@@ -33,9 +33,11 @@ fun Byte.toHexString(): String {
 }
 
 fun ByteArray.toHexString(): String {
-    val builder = StringBuilder()
+    val builder = java.lang.StringBuilder(this.size * 2)
     for (b in this) {
-        builder.append(b.toHexString())
+        val i = b.toInt() and 0xFF
+        builder.append(CHARS[i shr 4])
+        builder.append(CHARS[i and 0x0f])
     }
     return builder.toString()
 }
